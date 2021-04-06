@@ -6,6 +6,6 @@ const {
 const router = require("express").Router();
 
 router.get("/:sheetNum", getAllSheetInfo);
-router.get("/:shetNum/range/", getRangeFromSheet);
+router.get("/:sheetNum/range/", getRangeFromSheet);
 
 module.exports = router;

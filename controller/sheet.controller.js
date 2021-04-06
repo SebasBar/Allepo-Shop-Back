@@ -30,19 +30,27 @@ exports.getRangeFromSheet = async (req, res, next) => {
     );
     await promisify(doc.useServiceAccountAuth)(creds);
     const info = await promisify(doc.getInfo)();
-    const sheet = info.worksheets[0];
+    const sheet = info.worksheets[sheetNum];
     const cells = await promisify(sheet.getCells)({
+      // "min-row": 1,
+      // "max-row": 202,
+      // "min-col": 1,
+      // "max-col": 18,
+      // "return-empty": true,
+      // headers: {
       "min-row": Number(min_row),
       "max-row": Number(max_row),
       "min-col": Number(min_col),
       "max-col": Number(max_col),
       "return-empty": true,
+      // },
     });
     const filteredInfo = cells.map((info) => {
       return [info.row, info.col, info._value];
       // return `${info.row} ${info.col} ${info._value}`;
     });
-    res.status(200).json(filteredInfo);
+    const lastInfo = { filteredInfo };
+    res.status(200).json(lastInfo);
   } catch (err) {
     next(err);
   }
